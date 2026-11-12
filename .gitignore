@@ -1,0 +1,19 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Logs (keep the folder)
+logs/*.log
+logs/*.log.*
+
+# IDE / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store

@@ -1,0 +1,14 @@
+{
+  "_help": "Add your own commands. type 'reply' = VYOM says 'response'. type 'open_url' = VYOM opens 'url' (http/https only). Each command needs a list of 'phrases'.",
+  "commands": [
+    {"phrases": ["open youtube", "launch youtube", "go to youtube"], "type": "open_url", "url": "https://www.youtube.com", "response": "Opening YouTube."},
+    {"phrases": ["open google", "launch google", "go to google"], "type": "open_url", "url": "https://www.google.com", "response": "Opening Google."},
+    {"phrases": ["open gmail", "open my email inbox"], "type": "open_url", "url": "https://mail.google.com", "response": "Opening Gmail."},
+    {"phrases": ["open github", "go to github"], "type": "open_url", "url": "https://github.com", "response": "Opening GitHub."},
+    {"phrases": ["open linkedin", "go to linkedin"], "type": "open_url", "url": "https://www.linkedin.com", "response": "Opening LinkedIn."},
+    {"phrases": ["open wikipedia", "go to wikipedia"], "type": "open_url", "url": "https://www.wikipedia.org", "response": "Opening Wikipedia."},
+    {"phrases": ["open google maps"], "type": "open_url", "url": "https://maps.google.com", "response": "Opening Google Maps."},
+    {"phrases": ["who is my best friend", "who is my best friend vyom"], "type": "reply", "response": "You have not told me yet. Open data/custom_commands.json and edit this answer to your best friend's name."},
+    {"phrases": ["who created you", "who made you", "who built you"], "type": "reply", "response": "I was built in Python as a voice assistant project for the Oasis Infobyte Python programming internship."}
+  ]
+}
