@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ code }} - ChatSphere{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+{% block body %}
+<div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+<main class="auth-wrap single">
+  <section class="auth-card center">
+    <div class="err-code">{{ code }}</div>
+    <h2>{{ text }}</h2>
+    <a class="btn primary" href="{{ url_for('auth.index') }}">Back to ChatSphere</a>
+  </section>
+</main>
+{% endblock %}

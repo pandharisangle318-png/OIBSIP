@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}ChatSphere{% endblock %}
+{% block body_class %}chat-page{% endblock %}
+{% block body %}
+<div class="app" id="app" data-username="{{ current_user['username'] }}" data-csrf="{{ csrf_token() }}">
+
+  <aside class="rail" id="rail" aria-label="Rooms">
+    <div class="rail-top">
+      <a class="brand small" href="{{ url_for('auth.index') }}">
+        <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="" width="30" height="30">
+        <span>Chat<b>Sphere</b></span>
+      </a>
+      <button class="icon-btn only-mobile" id="close-rail" aria-label="Close menu">&times;</button>
+    </div>
+
+    <div class="rail-head">
+      <h3>Rooms</h3>
+      <button class="btn ghost tiny" id="new-room-btn" type="button">+ New</button>
+    </div>
+    <nav class="room-list" id="room-list"></nav>
+
+    <div class="me">
+      <div class="avatar" id="me-avatar"></div>
+      <div class="me-info">
+        <strong>{{ current_user['username'] }}</strong>
+        <span class="live" id="conn-state"><i></i><em>Connecting</em></span>
+      </div>
+      <form method="post" action="{{ url_for('auth.logout') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="icon-btn" type="submit" title="Log out" aria-label="Log out">&#x23FB;</button>
+      </form>
+    </div>
+  </aside>
+  <div class="scrim" id="scrim"></div>
+
+  <section class="stage" aria-label="Conversation">
+    <header class="stage-head">
+      <button class="icon-btn only-mobile" id="open-rail" aria-label="Open rooms">&#9776;</button>
+      <div class="titles">
+        <h2 id="room-title">Select a room</h2>
+        <p id="room-desc"></p>
+      </div>
+      <div class="head-actions">
+        <button class="icon-btn" id="bell-btn" type="button" title="Desktop notifications" aria-pressed="false">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        </button>
+        <button class="chip" id="people-btn" type="button" aria-expanded="false"><i class="dot"></i><span id="online-count">0</span> online</button>
+      </div>
+    </header>
+
+    <div class="banner" id="notify-banner" hidden>
+      <span>Get a desktop alert when someone writes while this tab is in the background.</span>
+      <button class="btn primary tiny" id="notify-enable" type="button">Enable</button>
+      <button class="btn ghost tiny" id="notify-dismiss" type="button">Not now</button>
+    </div>
+
+    <div class="feed" id="feed" tabindex="0" aria-live="polite">
+      <div class="empty" id="empty">
+        <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="" width="64" height="64">
+        <p>Pick a room on the left to start talking.</p>
+      </div>
+    </div>
+
+    <form class="composer" id="composer" autocomplete="off">
+      <div class="emoji-pop" id="emoji-pop" hidden>
+        {% for name, char in emojis %}<button type="button" data-code=":{{ name }}:" title=":{{ name }}:">{{ char }}</button>{% endfor %}
+      </div>
+      <button class="icon-btn" id="emoji-btn" type="button" title="Emoji" aria-label="Emoji picker">&#x263A;</button>
+      <textarea id="input" rows="1" maxlength="1000" placeholder="Write a message...  (try :smile: or :fire:)" disabled></textarea>
+      <span class="counter" id="counter"></span>
+      <button class="send" id="send" type="submit" aria-label="Send message" disabled>
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>
+      </button>
+    </form>
+  </section>
+
+  <aside class="people" id="people" aria-label="People online" hidden>
+    <div class="people-head"><h3>Online now</h3><button class="icon-btn" id="close-people" aria-label="Close">&times;</button></div>
+    <ul id="people-list"></ul>
+  </aside>
+
+  <div class="modal" id="room-modal" hidden>
+    <form class="modal-card" id="room-form">
+      <h3>Create a room</h3>
+      <label class="field"><span>Name</span><input id="room-name" maxlength="30" required placeholder="e.g. Python Help"></label>
+      <label class="field"><span>Description <em>(optional)</em></span><input id="room-description" maxlength="120" placeholder="What is this room about?"></label>
+      <p class="form-error" id="room-error" role="alert"></p>
+      <div class="modal-actions">
+        <button class="btn ghost" type="button" id="room-cancel">Cancel</button>
+        <button class="btn primary" type="submit">Create room</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="assertive"></div>
+</div>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% endblock %}

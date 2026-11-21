@@ -1,0 +1,30 @@
+{% extends "_auth_shell.html" %}
+{% block title %}Create account - ChatSphere{% endblock %}
+{% block card %}
+<h2>Create your account</h2>
+<p class="muted">It takes ten seconds. No email needed.</p>
+<form method="post" action="{{ url_for('auth.register') }}" class="form" novalidate>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label class="field">
+    <span>Username</span>
+    <input type="text" name="username" value="{{ username }}" autocomplete="username" autofocus required minlength="3" maxlength="20" pattern="[A-Za-z0-9_]+">
+    <small>3-20 characters: letters, numbers, underscore.</small>
+  </label>
+  <label class="field">
+    <span>Password</span>
+    <div class="pw">
+      <input type="password" name="password" autocomplete="new-password" required minlength="8" maxlength="128" id="pw">
+      <button type="button" class="pw-toggle" data-target="pw" aria-label="Show password">Show</button>
+    </div>
+    <div class="meter" aria-hidden="true"><i></i></div>
+    <small id="pw-hint">At least 8 characters.</small>
+  </label>
+  <label class="field">
+    <span>Confirm password</span>
+    <input type="password" name="confirm" autocomplete="new-password" required maxlength="128" id="confirm">
+  </label>
+  <button class="btn primary block" type="submit">Create account</button>
+</form>
+<p class="switch">Already registered? <a href="{{ url_for('auth.login') }}">Log in</a></p>
+<script src="{{ url_for('static', filename='js/auth.js') }}" defer></script>
+{% endblock %}
